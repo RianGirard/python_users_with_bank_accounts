@@ -5,12 +5,10 @@ class User:
         self.accounts = [BankAccount(account_name="checking", int_rate=0.02, balance=0), BankAccount(account_name="savings", int_rate=0.04, balance=0)]
 
     def make_deposit(self, account_name, amount):       
-        if account_name == "checking":
-            self.accounts[0].deposit(amount)
-            return self
-        if account_name == "savings":
-            self.accounts[1].deposit(amount)
-            return self
+        for i in self.accounts:
+            if i.account_name == account_name:
+                i.deposit(amount)
+        return self
 
     def make_withdrawal(self, account_name, amount):       
         if account_name == "checking":
@@ -27,8 +25,14 @@ class User:
             print(account_name, self.accounts[1].display_account_info())
         return self
 
+### NEW !!! 
+    def create_account(self, account_name):
+        self.accounts.append(BankAccount(account_name=account_name))
+        return self
+### 
+
 class BankAccount:
-    def __init__(self, account_name, int_rate, balance):
+    def __init__(self, account_name, int_rate=0.02, balance=0):
         self.int_rate = int_rate
         self.account_name = account_name
         if balance == None:
